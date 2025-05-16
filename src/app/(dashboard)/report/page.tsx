@@ -5,11 +5,7 @@ import React from "react";
 export default function ReportPage() {
   return (
     <div className="px-4 lg:px-6">
-      <h1 className="text-2xl font-bold mb-6">Reports</h1>
       <div className="space-y-6">
-        <div className="bg-card p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Location Analytics</h2>
-        </div>
         <div className="bg-card p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Monthly Performance</h2>
           <div className="h-64 bg-muted/20 rounded flex items-center justify-center">

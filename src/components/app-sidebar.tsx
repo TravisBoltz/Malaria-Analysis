@@ -5,6 +5,8 @@ import {
   IconChartBar,
   IconDashboard,
   IconListDetails,
+  IconPresentationAnalyticsFilled,
+  IconCurrentLocation,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +24,7 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/main",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
@@ -34,6 +36,16 @@ const data = {
       title: "Report",
       url: "/report",
       icon: IconChartBar,
+    },
+    {
+      title: "Tracking Samples",
+      url: "/tracking-samples",
+      icon: IconCurrentLocation,
+    },
+    {
+      title: "GRC Reports",
+      url: "/grc-reports",
+      icon: IconPresentationAnalyticsFilled,
     },
   ],
 };

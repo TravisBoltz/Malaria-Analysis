@@ -100,6 +100,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Download } from "lucide-react";
 
 export const schema = z.object({
   id: z.number(),
@@ -398,14 +399,14 @@ export function DataTable({
 
   return (
     <Tabs
-      defaultValue="outline"
+      defaultValue="plasmodium"
       className="w-full flex-col justify-start gap-6"
     >
       <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
-        <Select defaultValue="outline">
+        <Select defaultValue="plasmodium">
           <SelectTrigger
             className="flex w-fit @4xl/main:hidden"
             size="sm"
@@ -414,19 +415,15 @@ export function DataTable({
             <SelectValue placeholder="Select a view" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="outline">Plasmodium</SelectItem>
-            <SelectItem value="past-performance">Vector</SelectItem>
-            <SelectItem value="key-personnel">Host</SelectItem>
-            <SelectItem value="focus-documents">Focus Documents</SelectItem>
+            <SelectItem value="plasmodium">Plasmodium</SelectItem>
+            <SelectItem value="vector">Vector Focus</SelectItem>
+            <SelectItem value="host">Host Focus</SelectItem>
           </SelectContent>
         </Select>
         <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
-          <TabsTrigger value="outline">Plasmodium</TabsTrigger>
-          <TabsTrigger value="past-performance">Vector</TabsTrigger>
-          <TabsTrigger value="key-personnel">
-            Key Personnel <Badge variant="secondary">2</Badge>
-          </TabsTrigger>
-          <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
+          <TabsTrigger value="plasmodium">Plasmodium</TabsTrigger>
+          <TabsTrigger value="vector">Vector Focus</TabsTrigger>
+          <TabsTrigger value="host">Host Focus</TabsTrigger>
         </TabsList>
         {/* <div className="flex items-center gap-2">
           <DropdownMenu>
@@ -467,9 +464,21 @@ export function DataTable({
             <span className="hidden lg:inline">Add Section</span>
           </Button>
         </div> */}
+        {/* Export button */}
+
+        <div className="flex justify-end px-4">
+          <Button
+            variant="secondary"
+            className="flex items-center text-white  rounded-lg px-3 py-2 shadow-sm border "
+          >
+            <Download className="h-4 w-4 " />
+            <span className="text-sm font-medium">Export</span>
+          </Button>
+        </div>
       </div>
+
       <TabsContent
-        value="outline"
+        value="plasmodium"
         className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
       >
         <div className="overflow-hidden rounded-lg border">
@@ -601,13 +610,10 @@ export function DataTable({
           </div>
         </div>
       </TabsContent>
-      <TabsContent
-        value="past-performance"
-        className="flex flex-col px-4 lg:px-6"
-      >
+      <TabsContent value="vector" className="flex flex-col px-4 lg:px-6">
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
-      <TabsContent value="key-personnel" className="flex flex-col px-4 lg:px-6">
+      <TabsContent value="host" className="flex flex-col px-4 lg:px-6">
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
       <TabsContent
@@ -739,9 +745,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                     </SelectItem>
                     <SelectItem value="Design">Design</SelectItem>
                     <SelectItem value="Capabilities">Capabilities</SelectItem>
-                    <SelectItem value="Focus Documents">
-                      Focus Documents
-                    </SelectItem>
+
                     <SelectItem value="Narrative">Narrative</SelectItem>
                     <SelectItem value="Cover Page">Cover Page</SelectItem>
                   </SelectContent>

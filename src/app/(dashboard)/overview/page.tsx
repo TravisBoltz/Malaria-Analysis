@@ -3,6 +3,7 @@
 import { DataTable } from "@/components/data-table";
 import React from "react";
 import data from "./data.json";
+
 export default function OverviewPage() {
   return (
     // <div className="px-4 lg:px-6">
@@ -41,6 +42,9 @@ export default function OverviewPage() {
     //     </div>
     //   </div>
     // </div>
-    <DataTable data={data} />
+    <>
+      {" "}
+      <DataTable data={data} />
+    </>
   );
 }
