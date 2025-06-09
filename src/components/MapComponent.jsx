@@ -18,24 +18,28 @@ const markerIcon = L.icon({
   shadowSize: [41, 41],
 });
 
+// Ghana bounds
+const ghanaBounds = [
+  [4.5, -3.3], // Southwest
+  [11.2, 1.2], // Northeast
+];
+
 // Define color scale based on count
 const getCircleColor = (count) => {
-  if (count >= 12) return "#dc2626"; // High prevalence - red
-  if (count >= 9) return "#ea580c"; // Medium-high - orange
-  if (count >= 6) return "#eab308"; // Medium - yellow
-  return "#65a30d"; // Low - green
+  if (count >= 12) return "#dc2626";
+  if (count >= 9) return "#ea580c";
+  if (count >= 6) return "#eab308";
+  return "#65a30d";
 };
 
 // Define radius scale based on count
 const getCircleRadius = (count) => {
-  return count * 3000; // Scale radius based on count
+  return count * 3000;
 };
 
 const GhanaMapComponent = ({ center, zoom, dataPoints, selectedMutant }) => {
-  // State for the map instance
   const [map, setMap] = useState(null);
 
-  // Update the map view if center or zoom changes
   useEffect(() => {
     if (map) {
       map.setView(center, zoom);
@@ -48,16 +52,18 @@ const GhanaMapComponent = ({ center, zoom, dataPoints, selectedMutant }) => {
       zoom={zoom}
       style={{ height: "100%", width: "100%" }}
       whenCreated={setMap}
+      maxBounds={ghanaBounds}
+      maxBoundsViscosity={1.0}
+      minZoom={6}
+      maxZoom={12}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* Data point markers and circles */}
       {dataPoints.map((point, index) => (
         <div key={`marker-${index}`}>
-          {/* Circle showing prevalence intensity */}
           <Circle
             center={[point.lat, point.lng]}
             radius={getCircleRadius(point.count)}
@@ -68,8 +74,6 @@ const GhanaMapComponent = ({ center, zoom, dataPoints, selectedMutant }) => {
               weight: 1,
             }}
           />
-
-          {/* Marker with popup */}
           <Marker position={[point.lat, point.lng]} icon={markerIcon}>
             <Popup>
               <div>

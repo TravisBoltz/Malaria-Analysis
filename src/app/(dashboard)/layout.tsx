@@ -4,6 +4,7 @@ import * as React from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function DashboardLayout({
   children,
@@ -29,6 +30,7 @@ export default function DashboardLayout({
             </div>
           </div>
         </div>
+        <Footer />
       </SidebarInset>
     </SidebarProvider>
   );

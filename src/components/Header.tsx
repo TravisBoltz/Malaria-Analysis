@@ -1,22 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
-import { ModeToggle } from "./mode-toogle";
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+// import { Menu } from "lucide-react";
+// import { ModeToggle } from "./mode-toogle";
 import { SidebarTrigger } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
 const getPageTitle = (pathname: string) => {
-  const path = pathname.split('/').pop() || 'Dashboard';
-  if (path === '') return 'Dashboard';
-  
+  const path = pathname.split("/").pop() || "Dashboard";
+  if (path === "") return "Dashboard";
+
   // Format the path to title case and replace hyphens with spaces
   return path
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
 
 export default function Header() {
@@ -52,7 +52,7 @@ export default function Header() {
           <h1 className="text-lg font-medium">{pageTitle}</h1>
         </div>
         <div className="flex gap-4">
-          <ModeToggle />
+          {/* <ModeToggle />
           <Sheet>
             <SheetTrigger className="md:hidden">
               <Menu className="h-6 w-6" />
@@ -60,7 +60,7 @@ export default function Header() {
             <SheetContent>
               <ModeToggle />
             </SheetContent>
-          </Sheet>
+          </Sheet> */}
           <Avatar className="">
             <AvatarFallback className="bg-gray-900 text-white">
               A

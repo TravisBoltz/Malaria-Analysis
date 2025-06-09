@@ -6,6 +6,8 @@ import { PieChart } from "@/components/pie-chart";
 import { BarChartGraph } from "@/components/bar-chart";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ResearchDashboard from "@/components/ResearchDashboard";
+import MedicalDashboard from "@/components/MedicalDashboard";
 
 export default function DashboardPage() {
   return (
@@ -32,6 +34,8 @@ export default function DashboardPage() {
           <BarChartGraph />
         </div>
       </div>
+      <ResearchDashboard />
+      <MedicalDashboard />
     </>
   );
 }
