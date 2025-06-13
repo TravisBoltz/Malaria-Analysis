@@ -62,13 +62,13 @@ export function BarChartGraph() {
             <Bar
               dataKey="desktop"
               stackId="a"
-              fill="var(--color-primary)"
+              fill="var(--color-chart-1)"
               radius={[0, 0, 4, 4]}
             />
             <Bar
               dataKey="mobile"
               stackId="a"
-              fill="var(--color-secondary)"
+              fill="var(--color-chart-2)"
               radius={[4, 4, 0, 0]}
             />
           </BarChart>

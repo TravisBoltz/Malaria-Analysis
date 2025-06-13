@@ -1,25 +1,11 @@
 "use client";
 import { useState } from "react";
 import { BarChart2, Map, Database } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+
 import dynamic from "next/dynamic";
+import RegionalRiskAssessment from "@/components/RegionalRiskAssessment";
 
 // Dynamic import of the Map component to prevent SSR issues
 const MapComponent = dynamic(() => import("../../../components/MapComponent"), {
@@ -70,26 +56,6 @@ const StatCard = ({
 
 export default function GRCReports() {
   const [selectedMutant] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  // Mock data for Ghana regions
-  const regions: string[] = [
-    "Greater Accra",
-    "Ashanti",
-    "Western",
-    "Eastern",
-    "Central",
-  ];
-
-  const mutantTypes = [
-    { name: "WT", color: "#6b7220" },
-    { name: "Single", color: "#4a3563" },
-    { name: "Composite", color: "#275151" },
-    { name: "Multi", color: "#1937" },
-    { name: "Null", color: "#1167" },
-  ];
 
   // Sample table data - focused on Ghana
   const tableData = [
@@ -165,13 +131,6 @@ export default function GRCReports() {
     },
   ];
 
-  // Filtered data based on search term
-  const filteredData = tableData.filter(
-    (row) =>
-      row.mutant.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.region.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   // Ghana map coordinates
   const ghanaCoordinates = {
     center: [7.9465, -2.0232],
@@ -212,13 +171,6 @@ export default function GRCReports() {
     100
   ).toFixed(1);
 
-  // Pagination
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const currentItems = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
   return (
     <div className="px-4 lg:px-6">
       <div className="space-y-6">
@@ -229,15 +181,6 @@ export default function GRCReports() {
                 Detailed reports on gene-specific data across Ghana regions
               </p>
             </div>
-            <Input
-              placeholder="Search mutants or regions..."
-              className="h-8 w-[200px]"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1);
-              }}
-            />
           </div>
 
           {/* Stats Grid */}
@@ -268,7 +211,7 @@ export default function GRCReports() {
         {/* Main Content Layout */}
         <div className="flex flex-col xl:flex-row gap-4 sm:gap-6">
           {/* Left Side - Map (Full Height) */}
-          <div className="w-full xl:w-1/2 h-[400px] xl:h-[calc(100vh-300px)]">
+          <div className="w-full xl:w-2/3 h-[500px] xl:h-[calc(100vh)]">
             <Card className="h-full flex flex-col">
               <CardHeader className="py-2 sm:py-3 border-b">
                 <CardTitle className="text-sm sm:text-base font-semibold flex items-center">
@@ -290,199 +233,7 @@ export default function GRCReports() {
           </div>
 
           {/* Right Side - Chart and Table (Stacked) */}
-          <div className="w-full xl:w-1/2 flex flex-col gap-4 sm:gap-6">
-            {/* Chart */}
-            <Card className="flex-1">
-              <CardHeader className="py-2 sm:py-3">
-                <CardTitle className="text-sm sm:text-base font-medium flex items-center">
-                  <BarChart2 className="w-4 h-4 mr-2" />
-                  PIDHR Mutants Distribution
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-2 sm:p-6">
-                <h4 className="text-xs sm:text-sm font-medium text-muted-foreground mb-2 sm:mb-3">
-                  Prevalence of PIDHR Mutants Across Ghana
-                </h4>
-                <div className="h-40 sm:h-48 flex overflow-x-auto pb-2 -mx-2 px-2">
-                  <div className="flex min-w-max w-full">
-                    {regions.map((region) => (
-                      <div
-                        key={region}
-                        className="flex flex-col flex-1 mx-1"
-                        style={{ height: "100%" }}
-                      >
-                        <div className="flex-grow flex flex-col-reverse">
-                          {mutantTypes.map((type) => (
-                            <div
-                              key={`${region}-${type.name}`}
-                              className="w-full"
-                              style={{
-                                backgroundColor: type.color,
-                                height: `${Math.max(
-                                  5,
-                                  Math.random() * 25 +
-                                    (type.name === "WT" ? 40 : 10)
-                                )}%`,
-                              }}
-                            />
-                          ))}
-                        </div>
-                        <div className="text-[10px] xs:text-xs mt-2 text-muted-foreground transform origin-top-left h-10 xs:h-12 overflow-hidden whitespace-nowrap">
-                          {region.length > 15
-                            ? `${region.substring(0, 8)}..`
-                            : region}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="mt-3 sm:mt-4 flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-3">
-                  {mutantTypes.map((type) => (
-                    <div key={type.name} className="flex items-center text-xs">
-                      <div
-                        className="w-3 h-3 mr-1 rounded-sm"
-                        style={{ backgroundColor: type.color }}
-                      ></div>
-                      {type.name}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Table */}
-            <Card className="flex-1 flex flex-col">
-              <CardHeader className="py-2 sm:py-3 border-b">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm sm:text-base font-semibold flex items-center">
-                    <Database className="w-4 h-4 mr-2 text-primary" />
-                    Gene Data Table
-                  </CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="p-1 sm:p-2">
-                <div className="rounded-md border overflow-x-auto">
-                  <Table className="min-w-[600px] sm:min-w-full">
-                    <TableHeader>
-                      <TableRow className="hover:bg-transparent">
-                        <TableHead className="h-8 sm:h-10 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm">
-                          Mutant
-                        </TableHead>
-                        <TableHead className="h-8 sm:h-10 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm">
-                          Region
-                        </TableHead>
-                        <TableHead className="h-8 sm:h-10 px-2 sm:px-4 py-1.5 sm:py-2 text-right text-xs sm:text-sm">
-                          Frequency
-                        </TableHead>
-                        <TableHead className="h-8 sm:h-10 px-2 sm:px-4 py-1.5 sm:py-2 text-right text-xs sm:text-sm">
-                          Prevalence
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {currentItems.length > 0 ? (
-                        currentItems.map((row) => (
-                          <TableRow key={row.id} className="hover:bg-muted/50">
-                            <TableCell className="px-2 sm:px-4 py-1.5 sm:py-3">
-                              <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-mono bg-muted rounded">
-                                {row.mutant}
-                              </span>
-                            </TableCell>
-                            <TableCell className="px-2 sm:px-4 py-1.5 sm:py-3 text-xs sm:text-sm">
-                              {row.region}
-                            </TableCell>
-                            <TableCell className="px-2 sm:px-4 py-1.5 sm:py-3 text-right font-medium text-xs sm:text-sm">
-                              {row.frequency}
-                            </TableCell>
-                            <TableCell className="px-2 sm:px-4 py-1.5 sm:py-3 text-right">
-                              <span className="font-medium text-xs sm:text-sm">
-                                {(row.percentage * 100).toFixed(1)}%
-                              </span>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell
-                            colSpan={4}
-                            className="h-24 text-center text-muted-foreground"
-                          >
-                            No results found
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </div>
-
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <div className="flex items-center justify-end space-x-2 py-4">
-                    <div className="text-sm text-muted-foreground">
-                      Page {currentPage} of {totalPages}
-                    </div>
-                    <Pagination className="w-auto">
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious
-                            className={
-                              currentPage === 1
-                                ? "pointer-events-none opacity-50"
-                                : "cursor-pointer"
-                            }
-                            onClick={() =>
-                              currentPage > 1 && setCurrentPage(currentPage - 1)
-                            }
-                          />
-                        </PaginationItem>
-                        {Array.from(
-                          { length: Math.min(5, totalPages) },
-                          (_, i) => {
-                            // Calculate page numbers to show (current page in the middle when possible)
-                            let pageNum;
-                            if (totalPages <= 5) {
-                              pageNum = i + 1;
-                            } else if (currentPage <= 3) {
-                              pageNum = i + 1;
-                            } else if (currentPage >= totalPages - 2) {
-                              pageNum = totalPages - 4 + i;
-                            } else {
-                              pageNum = currentPage - 2 + i;
-                            }
-
-                            return (
-                              <PaginationItem key={pageNum}>
-                                <PaginationLink
-                                  isActive={pageNum === currentPage}
-                                  className="cursor-pointer"
-                                  onClick={() => setCurrentPage(pageNum)}
-                                >
-                                  {pageNum}
-                                </PaginationLink>
-                              </PaginationItem>
-                            );
-                          }
-                        )}
-                        <PaginationItem>
-                          <PaginationNext
-                            className={
-                              currentPage === totalPages
-                                ? "pointer-events-none opacity-50"
-                                : "cursor-pointer"
-                            }
-                            onClick={() =>
-                              currentPage < totalPages &&
-                              setCurrentPage(currentPage + 1)
-                            }
-                          />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+          <RegionalRiskAssessment />
         </div>
       </div>
     </div>

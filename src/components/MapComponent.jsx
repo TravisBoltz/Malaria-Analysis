@@ -34,7 +34,7 @@ const getCircleColor = (count) => {
 
 // Define radius scale based on count
 const getCircleRadius = (count) => {
-  return count * 3000;
+  return count * 1000;
 };
 
 const GhanaMapComponent = ({ center, zoom, dataPoints, selectedMutant }) => {

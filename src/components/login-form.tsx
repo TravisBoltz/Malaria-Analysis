@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { ChartLine, Shield } from "lucide-react";
+import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -58,9 +59,18 @@ export function LoginForm({
                     placeholder="Enter your password"
                   />
                 </div>
-                <Button type="submit" className="w-full ">
-                  Sign In
-                </Button>
+                <Link href="/dashboard">
+                  <Button type="submit" className="w-full ">
+                    Sign In
+                  </Button>
+                </Link>
+                {/* <Button
+                  type="submit"
+                  variant="secondary"
+                  className="w-full text-white"
+                >
+                  Register
+                </Button> */}
               </div>
             </div>
           </form>
