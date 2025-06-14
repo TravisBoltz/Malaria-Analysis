@@ -20,7 +20,7 @@ function FloatingPaths({ position }: { position: number }) {
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      <svg className="w-full h-full  " viewBox="0 0 696 316" fill="none">
+      <svg className="w-full h-full" viewBox="0 0 696 316" fill="none">
         <title>Background Paths</title>
         {paths.map((path) => (
           <motion.path
@@ -47,11 +47,8 @@ function FloatingPaths({ position }: { position: number }) {
   );
 }
 
-export default function Home({
-  title = "Malaria Analysis",
-}: {
-  title?: string;
-}) {
+export default function Home() {
+  const title = "Malaria Analysis";
   const words = title.split(" ");
   const router = useRouter();
 
